@@ -3,6 +3,7 @@ require 'csv'
 require 'docopt'
 require 'json'
 require_relative 'batting_helper'
+require_relative 'avg_batting_json_generator'
 
 doc = <<~DOCOPT
   Average Batting.
@@ -21,30 +22,27 @@ DOCOPT
 
 argv = Docopt.docopt(doc)
 year_id = argv['--year']
-team_id = argv['--team']
+team_name = argv['--team']
+year_ids = []
+team_name_to_id = JSON.parse(File.read('./team_name_to_team_id.json'))
+# set team id and year in which those team exist (there are many teams with the same id but different names through the years)
+team_id = if team_name.nil?
+            year_ids = year_id.nil? ? nil : [year_id.to_i]
+            nil
+          else
+            id = team_name_to_id[team_name]
+            if id.nil?
+              puts "Team name does not exist. Please enter a correct name."
+              return
+            else
+              year_ids = year_id.nil? ? id[1] : [year_id.to_i]
+              id[0]
+            end
+          end
 
-start = Time.now
-puts "time started at: #{start}"
+# read average batting json from the file
+read_avg_batting(team_id)
 
-batting_file = File.read('./batting.json')
 batting_json = JSON.parse(batting_file)
-batting = []
-if batting_json.nil? || batting_json.empty?
-  batting = CSV.parse(File.read('Batting.csv'), headers: true, converters: :numeric)
-end
-
-res = if batting_json.empty?
-        batting_avg_from_csv(batting, team_id, year_id)
-      else
-        batting_avg_from_json(batting_json, team_id, year_id)
-end
-
-print(res)
-ended = Time.now
-puts "time ended at: #{ended}"
-puts "duration: #{ended - start}"
-
-
-# File.open("batting.json", "w") do |f|
-#   f.write(res.to_json)
-# end
+res = batting_avg_from_json(batting_json, team_id, year_ids)
+print_avg(res)
