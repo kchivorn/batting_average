@@ -3,7 +3,8 @@ require 'csv'
 require 'docopt'
 require 'json'
 require_relative 'batting_helper'
-require_relative 'avg_batting_json_generator'
+require_relative 'generator/avg_batting_json_generator'
+require_relative 'generator/team_mapping'
 
 doc = <<~DOCOPT
   Average Batting.
@@ -24,7 +25,7 @@ argv = Docopt.docopt(doc)
 year_id = argv['--year']
 team_name = argv['--team']
 year_ids = []
-team_name_to_id = JSON.parse(File.read('./team_name_to_team_id.json'))
+team_name_to_id = get_team_name_to_id
 # set team id and year in which those team exist (there are many teams with the same id but different names through the years)
 team_id = if team_name.nil?
             year_ids = [year_id.to_i] unless year_id.nil?

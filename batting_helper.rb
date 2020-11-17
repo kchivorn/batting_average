@@ -124,7 +124,7 @@ end
 
 def print_avg(res)
   return if res.empty?
-  team_id_to_name = JSON.parse(File.read('./team_id_to_team_name.json'))
+  team_id_to_name = JSON.parse(File.read('./json/team_id_to_team_name.json'))
   puts '+---------------+--------+------------------------------------------------------------+-----------------+'
   puts '|    PlayerID   | yearID |                           Team Name(s)                     | Batting Average |'
   puts '+---------------+--------+------------------------------------------------------------+-----------------+'
