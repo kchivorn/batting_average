@@ -1,4 +1,9 @@
 require 'json'
+
+# We can directly manipulate and sort batting records after reading from csv files
+# But this approach is slow, so we decide to pre-generate sorted record
+# according to average batting in descending order and store in a json file instead
+=begin
 def output_with_team_id(batting, team_id)
   res = []
   batting.each do |b|
@@ -41,6 +46,7 @@ def output_with_year_id(batting, year_id)
   end
   res.sort_by { |b| -b[3] }
 end
+=end
 
 def get_avg_for_each_stint(batting)
   res = []

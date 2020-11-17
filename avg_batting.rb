@@ -27,7 +27,7 @@ year_ids = []
 team_name_to_id = JSON.parse(File.read('./team_name_to_team_id.json'))
 # set team id and year in which those team exist (there are many teams with the same id but different names through the years)
 team_id = if team_name.nil?
-            year_ids = year_id.nil? ? nil : [year_id.to_i]
+            year_ids = [year_id.to_i] unless year_id.nil?
             nil
           else
             id = team_name_to_id[team_name]
@@ -41,7 +41,7 @@ team_id = if team_name.nil?
           end
 
 # read average batting json from the file
-read_avg_batting(team_id)
+batting_file = read_avg_batting(team_id)
 
 batting_json = JSON.parse(batting_file)
 res = batting_avg_from_json(batting_json, team_id, year_ids)

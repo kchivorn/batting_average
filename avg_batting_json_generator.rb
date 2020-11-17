@@ -46,6 +46,7 @@ def read_avg_batting(team_id)
       batting_file = File.read('./batting_each_stint.json')
     end
   end
+  batting_file
 end
 
 generate_all
