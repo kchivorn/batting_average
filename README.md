@@ -1,7 +1,7 @@
 # batting_average
 Get the average batting by running:
 ```
-avg_batting.rb [--team="teamID"] [--year="yearID"]
+avg_batting.rb [--team="teamID"] [--year=yearID]
 ```
 
 For example: 
